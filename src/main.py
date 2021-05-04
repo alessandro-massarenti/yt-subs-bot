@@ -2,23 +2,21 @@
 # pylint: disable=C0116
 
 
-import urllib.request
-import json
-
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, CallbackContext
 
 import config
+from ytch import YtCh
+
+mt = YtCh(config.name)
+
 
 def alarm(context: CallbackContext) -> None:
     """Send the alarm message."""
     global totale
     job = context.job
 
-    data = urllib.request.urlopen(
-        "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=" + name + "&key=" + key).read()
-    subs = json.loads(data)["items"][0]["statistics"]["subscriberCount"]
-
+    subs = mt.subs
     print('Controllato')
 
     if int(subs) != totale:
