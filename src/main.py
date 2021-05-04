@@ -1,30 +1,14 @@
-import urllib.request
-import json
-
-name = "Channel name"
-key = "GoogleAPIKey"
-totale = 0
-
 # !/usr/bin/env python
 # pylint: disable=C0116
-# This program is dedicated to the public domain under the CC0 license.
 
-"""
-Simple Bot to send timed Telegram messages.
-This Bot uses the Updater class to handle the bot and the JobQueue to send
-timed messages.
-First, a few handler functions are defined. Then, those functions are passed to
-the Dispatcher and registered at their respective places.
-Then, the bot is started and runs until we press Ctrl-C on the command line.
-Usage:
-Basic Alarm Bot example, sends a message after a set time.
-Press Ctrl-C on the command line or send a signal to the process to stop the
-bot.
-"""
+
+import urllib.request
+import json
 
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, CallbackContext
 
+import config
 
 def alarm(context: CallbackContext) -> None:
     """Send the alarm message."""
@@ -53,7 +37,7 @@ def set_timer(update: Update, context: CallbackContext) -> None:
 def main() -> None:
     """Run bot."""
     # Create the Updater and pass it your bot's token.
-    updater = Updater("BotToken")
+    updater = Updater(config.bot_token)
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
