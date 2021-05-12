@@ -4,6 +4,7 @@
 
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, CallbackContext
+from typing import List
 
 import config
 import os
@@ -34,20 +35,25 @@ def alarm(context: CallbackContext) -> None:
 def set_timer(update: Update, context: CallbackContext) -> None:
     """Add a job to the queue."""
     chat_id = update.message.chat_id
+    channel_name: str = context.args[0]
 
     context.job_queue.run_repeating(alarm, 30, context=chat_id)
 
 
 def main() -> None:
-    """Run bot."""
+    # Print "Starting up"
+    print("Starting up")
+
+    tracked_channels = List[YtChannel]
+
     # Create the Updater and pass it your bots token.
-    updater = Updater(config.bot_token)
+    updater = Updater(bot_key)
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
 
     # on different commands - answer in Telegram
-    dispatcher.add_handler(CommandHandler("start", set_timer))
+    dispatcher.add_handler(CommandHandler("track", set_timer))
 
     # Start the Bot
     updater.start_polling()
