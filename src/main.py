@@ -6,9 +6,9 @@ from telegram import Update
 from telegram.ext import Updater, CommandHandler, CallbackContext
 
 import config
-from ytch import YtCh
+from ytchannel import YtChannel
 
-mt = YtCh(config.name)
+mt = YtChannel(config.name)
 
 
 def alarm(context: CallbackContext) -> None:
