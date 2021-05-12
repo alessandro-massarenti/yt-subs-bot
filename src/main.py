@@ -6,9 +6,15 @@ from telegram import Update
 from telegram.ext import Updater, CommandHandler, CallbackContext
 
 import config
+import os
+
 from ytchannel import YtChannel
 
-mt = YtChannel(config.name)
+api_key: str = os.environ['API_KEY']
+bot_key: str = os.environ['BOT_KEY']
+totale = 0
+
+mt = YtChannel(config.name, api_key)
 
 
 def alarm(context: CallbackContext) -> None:
@@ -34,7 +40,7 @@ def set_timer(update: Update, context: CallbackContext) -> None:
 
 def main() -> None:
     """Run bot."""
-    # Create the Updater and pass it your bot's token.
+    # Create the Updater and pass it your bots token.
     updater = Updater(config.bot_token)
 
     # Get the dispatcher to register handlers
