@@ -14,7 +14,10 @@ class YtChannel:
 
     def __update(self):
         self.__data = urllib.request.urlopen(
-            "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=" + self.channel_name + "&api_key=" + self.api_key).read()
+            "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=" +
+            self.__channel_name +
+            "&api_key=" +
+            self.__api_key).read()
 
     @property
     def subs(self):
