@@ -1,0 +1,8 @@
+version: '3.1'
+services:
+
+  auth_server:
+    build: ./
+    environment:
+      - API_KEY=''
+      - BOT_KEY=''
