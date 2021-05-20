@@ -11,38 +11,15 @@ import os
 
 from ytchannel import YtChannel
 
-api_key: str = os.environ['API_KEY']
+
 bot_key: str = os.environ['BOT_KEY']
-totale = 0
 
 mt = YtChannel(config.name, api_key)
 
 
-def alarm(context: CallbackContext) -> None:
-    """Send the alarm message."""
-    global totale
-    job = context.job
-
-    subs = mt.subs
-    print('Controllato')
-
-    if int(subs) != totale:
-        totale = int(subs)
-        context.bot.send_message(job.context, text=subs + " iscritti su MountainTime")
-        print('message sent')
-
-
-def set_timer(update: Update, context: CallbackContext) -> None:
-    """Add a job to the queue."""
-    chat_id = update.message.chat_id
-    channel_name: str = context.args[0]
-
-    context.job_queue.run_repeating(alarm, 30, context=chat_id)
-
-
 def main() -> None:
     # Print "Starting up"
-    print("Starting up")
+    print("Spinning up the bot ...")
 
     tracked_channels = List[YtChannel]
 
@@ -55,6 +32,7 @@ def main() -> None:
     # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("track", set_timer))
 
+    print("Polling started")
     # Start the Bot
     updater.start_polling()
 
