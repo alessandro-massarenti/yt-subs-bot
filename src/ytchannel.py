@@ -9,25 +9,6 @@ api_key: str = os.environ['API_KEY']
 
 
 class YtChannel:
-    # def __init__(self, channel_name):
-    #     self.__channel_name = channel_name
-    #     self.__data = []
-    #     self.__update()
-    #
-    # def __update(self):
-    #     self.__data_s = urllib.request.urlopen(
-    #         "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=" +
-    #         self.__channel_name +
-    #         "&key=" +
-    #         api_key).read()
-    #
-    # @property
-    # def subs(self):
-    #     return json.loads(self.__data_s)["items"][0]["statistics"]["subscriberCount"]
-    #
-    # @property
-    # def views(self):
-    #     return json.loads(self.__data_s)["items"][0]["statistics"]["viewCount"]
 
     # Static Attributes
     __yt_api_iface = ytApi(api_key=api_key)
@@ -61,17 +42,17 @@ class YtChannel:
 
     # Getters
     @property
-    def title(self):
+    def title(self) -> str:
         return self.__title
 
     @property
-    def subs(self):
+    def subs(self) -> int:
         return self.__subs_count
 
     @property
-    def views(self):
+    def views(self) -> int:
         return self.__views_count
 
     @property
-    def videos(self):
+    def videos(self) -> int:
         return self.__videos_count
