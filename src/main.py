@@ -21,7 +21,7 @@ def main() -> None:
     dispatcher = updater.dispatcher
 
     # on different commands - answer in Telegram
-    dispatcher.add_handler(CommandHandler("track", CallBacks.set_timer))
+    dispatcher.add_handler(CommandHandler("track", CallBacks.track_channel))
 
     # Start the Bot
     updater.start_polling()

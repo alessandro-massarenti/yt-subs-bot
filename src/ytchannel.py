@@ -1,5 +1,6 @@
 # !/usr/bin/env python
 
+# Yt Api documentation
 # https://developers.google.com/youtube/v3/docs
 
 import os
@@ -8,6 +9,8 @@ from pyyoutube import Api as ytApi
 
 api_key: str = os.environ['API_KEY']
 
+
+# Class responsible of describing a yt channel
 
 class YtChannel:
     # Static Attributes
@@ -39,6 +42,9 @@ class YtChannel:
         if self.__title is "":
             snippet = channel['snippet']
             self.__title = snippet['title']
+
+    def __repr__(self):
+        return [self.title, self.subs, self.views, self.videos]
 
     # Getters
     @property
