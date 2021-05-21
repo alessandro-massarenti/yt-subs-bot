@@ -2,14 +2,14 @@
 
 # https://developers.google.com/youtube/v3/docs
 
-from pyyoutube import Api as ytApi
 import os
+
+from pyyoutube import Api as ytApi
 
 api_key: str = os.environ['API_KEY']
 
 
 class YtChannel:
-
     # Static Attributes
     __yt_api_iface = ytApi(api_key=api_key)
 
@@ -22,9 +22,9 @@ class YtChannel:
         self.__videos_count: int = 0
 
         # Initialization
-        self.__update()
+        self.update()
 
-    def __update(self):
+    def update(self) -> None:
         # Get the api handle and channel data
         channel = YtChannel.__yt_api_iface.get_channel_info(channel_id=self.__channel_id, parts="statistics,snippet") \
             .items[0].to_dict()
