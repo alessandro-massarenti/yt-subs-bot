@@ -7,7 +7,7 @@ from typing import List
 from telegram import Update
 from telegram.ext import CallbackContext
 
-from ytchannel import YtChannel
+from ytchannelremote import YtChannelRemote
 
 
 class CallBacks:

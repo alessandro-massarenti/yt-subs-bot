@@ -3,8 +3,6 @@
 # Class responsible of describing a yt channel
 
 class YtChannel:
-    # Static Attributes
-    __yt_api_iface = ytApi(api_key=api_key)
 
     def __init__(self, channel_id: str):
         # Attributes
@@ -20,16 +18,16 @@ class YtChannel:
     # Getters
     @property
     def title(self) -> str:
-        return self.__title
+        return self._title
 
     @property
     def subs(self) -> int:
-        return self.__subs_count
+        return self._subs_count
 
     @property
     def views(self) -> int:
-        return self.__views_count
+        return self._views_count
 
     @property
     def videos(self) -> int:
-        return self.__videos_count
+        return self._videos_count
