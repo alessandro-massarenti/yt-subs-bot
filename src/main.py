@@ -1,61 +1,37 @@
 # !/usr/bin/env python
 # pylint: disable=C0116
 
-
-from telegram import Update
-from telegram.ext import Updater, CommandHandler, CallbackContext
-
-import config
 import os
 
-from ytchannel import YtChannel
+from telegram.ext import Updater, CommandHandler
 
-api_key: str = os.environ['API_KEY']
+from callbacks import CallBacks
+
 bot_key: str = os.environ['BOT_KEY']
-totale = 0
-
-mt = YtChannel(config.name, api_key)
-
-
-def alarm(context: CallbackContext) -> None:
-    """Send the alarm message."""
-    global totale
-    job = context.job
-
-    subs = mt.subs
-    print('Controllato')
-
-    if int(subs) != totale:
-        totale = int(subs)
-        context.bot.send_message(job.context, text=subs + " iscritti su MountainTime")
-        print('message sent')
-
-
-def set_timer(update: Update, context: CallbackContext) -> None:
-    """Add a job to the queue."""
-    chat_id = update.message.chat_id
-
-    context.job_queue.run_repeating(alarm, 30, context=chat_id)
 
 
 def main() -> None:
-    """Run bot."""
+    # Print "Starting up"
+    print("Spinning up the bot ...")
+
     # Create the Updater and pass it your bots token.
-    updater = Updater(config.bot_token)
+    updater = Updater(bot_key)
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
 
     # on different commands - answer in Telegram
-    dispatcher.add_handler(CommandHandler("start", set_timer))
+    dispatcher.add_handler(CommandHandler("track", CallBacks.track_channel))
 
     # Start the Bot
     updater.start_polling()
+    print("Polling started")
 
     # Block until you press Ctrl-C or the process receives SIGINT, SIGTERM or
     # SIGABRT. This should be used most of the time, since start_polling() is
     # non-blocking and will stop the bot gracefully.
     updater.idle()
+    print("Waiting for messages")
 
 
 if __name__ == '__main__':
