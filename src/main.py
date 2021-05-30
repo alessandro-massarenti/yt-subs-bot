@@ -44,7 +44,6 @@ def main() -> None:
     # non-blocking and will stop the bot gracefully.
     updater.idle()
     timer.cancel()
-    print("Waiting for messages")
 
 
 if __name__ == '__main__':
