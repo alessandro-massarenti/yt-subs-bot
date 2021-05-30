@@ -14,7 +14,7 @@ api_key: str = os.environ['API_KEY']
 
 
 # Yt Channel connected
-class YtChannelC(YtChannel):
+class YtChannelRemote(YtChannel):
     # Static Attributes
     __yt_api_iface = ytApi(api_key=api_key)
 
@@ -26,7 +26,8 @@ class YtChannelC(YtChannel):
 
     def update(self):
         # Get the api handle and channel data
-        channel = YtChannelC.__yt_api_iface.get_channel_info(channel_id=self._channel_id, parts="statistics,snippet") \
+        channel = \
+        YtChannelRemote.__yt_api_iface.get_channel_info(channel_id=self._channel_id, parts="statistics,snippet") \
             .items[0].to_dict()
 
         self.__reset()
@@ -55,5 +56,5 @@ class YtChannelC(YtChannel):
         return self._changed
 
     def __reset(self) -> None:
-        for v in self._changed:
-            v = False
+        for val in self._changed:
+            val = False

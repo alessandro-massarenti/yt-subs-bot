@@ -12,12 +12,12 @@ from ytchannel import YtChannel
 
 class CallBacks:
     # Static Attributes
-    __tracked_channels: List[YtChannel]
+    __tracked_channels: List[YtChannelRemote]
 
     @staticmethod
     def track_channel(update: Update, context: CallbackContext):
         channel_id = context.args[0]
-        CallBacks.__tracked_channels.append(YtChannel(channel_id))
+        CallBacks.__tracked_channels.append(YtChannelRemote(channel_id))
 
     @staticmethod
     def check_channels():
