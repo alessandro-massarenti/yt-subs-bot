@@ -29,7 +29,7 @@ class YtChannelRemote(YtChannel):
     def __init__(self, channel_id: str):
         # Initialization
         super().__init__(channel_id)
-        self._changed: List[bool] = [False, False, False]
+        self._previous: List[bool] = [False, False, False]
         self.update()
 
     def update(self):
@@ -44,15 +44,15 @@ class YtChannelRemote(YtChannel):
 
         if self.subs != statistics['subscriberCount']:
             self._subs_count = statistics['subscriberCount']
-            self._changed[0] = True
+            self._previous[0] = True
 
         if self.views != statistics['viewCount']:
             self._subs_count = statistics['viewCount']
-            self._changed[1] = True
+            self._previous[1] = True
 
         if self.videos != statistics['videoCount']:
             self._subs_count = statistics['videoCount']
-            self._changed[2] = True
+            self._previous[2] = True
 
         # Get channel title
         if self._title is "":
@@ -61,8 +61,8 @@ class YtChannelRemote(YtChannel):
 
         # ritorna i dati cambiati
         #
-        return self._changed
+        return self._previous
 
     def __reset(self) -> None:
-        for val in self._changed:
+        for val in self._previous:
             val = False
