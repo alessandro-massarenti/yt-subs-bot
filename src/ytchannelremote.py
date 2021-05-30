@@ -13,6 +13,14 @@ from ytchannel import YtChannel
 api_key: str = os.environ['API_KEY']
 
 
+#
+# Update Policy
+# Write-trough
+#
+# Updater check every 30 seconds
+# If Changed a signal is passed
+#
+
 # Yt Channel connected
 class YtChannelRemote(YtChannel):
     # Static Attributes
@@ -26,8 +34,8 @@ class YtChannelRemote(YtChannel):
 
     def update(self):
         # Get the api handle and channel data
-        channel = \
-        YtChannelRemote.__yt_api_iface.get_channel_info(channel_id=self._channel_id, parts="statistics,snippet") \
+        channel = YtChannelRemote.__yt_api_iface. \
+            get_channel_info(channel_id=self._channel_id, parts="statistics,snippet") \
             .items[0].to_dict()
 
         self.__reset()

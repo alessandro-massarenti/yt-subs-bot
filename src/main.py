@@ -2,12 +2,21 @@
 # pylint: disable=C0116
 
 import os
-
 from telegram.ext import Updater, CommandHandler
+from threading import Timer
+
+import time
 
 from callbacks import CallBacks
 
 bot_key: str = os.environ['BOT_KEY']
+
+
+class RepeatTimer(Timer):
+    def run(self) -> None:
+        while not self.finished.wait(self.interval):
+            self.function(*self.args, **self.kwargs)
+        print("done")
 
 
 def main() -> None:
@@ -23,6 +32,9 @@ def main() -> None:
     # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("track", CallBacks.track_channel))
 
+    timer = RepeatTimer(1, CallBacks.check_channels)
+    timer.start()
+
     # Start the Bot
     updater.start_polling()
     print("Polling started")
@@ -31,6 +43,7 @@ def main() -> None:
     # SIGABRT. This should be used most of the time, since start_polling() is
     # non-blocking and will stop the bot gracefully.
     updater.idle()
+    timer.cancel()
     print("Waiting for messages")
 
 
