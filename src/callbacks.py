@@ -13,7 +13,6 @@ from ytchannelremote import YtChannelRemote
 class CallBacks:
     # Static Attributes
     __tracked_channels: List[YtChannelRemote] = []
-    __Users_channels: List = []
 
     @staticmethod
     def track_channel(update: Update, context: CallbackContext) -> None:
@@ -24,13 +23,15 @@ class CallBacks:
 
     @staticmethod
     def check_channels() -> None:
-        diff = []
+        names = []
+        count = 0
         for channel in CallBacks.__tracked_channels:
-            differences: dict = {}
-            views = channel.views
             subs = channel.subs
-            videos = channel.videos
             channel.update()
 
-        print("checked")
+            print(subs)
+
+            names.append({channel.title: channel.subs})
+
+        print(names)
         return None

@@ -32,7 +32,7 @@ def main() -> None:
     # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("track", CallBacks.track_channel))
 
-    timer = RepeatTimer(1, CallBacks.check_channels)
+    timer = RepeatTimer(2, CallBacks.check_channels)
     timer.start()
 
     # Start the Bot
