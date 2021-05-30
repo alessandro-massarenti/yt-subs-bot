@@ -1,15 +1,5 @@
 # !/usr/bin/env python
 
-# Yt Api documentation
-# https://developers.google.com/youtube/v3/docs
-
-import os
-
-from pyyoutube import Api as ytApi
-
-api_key: str = os.environ['API_KEY']
-
-
 # Class responsible of describing a yt channel
 
 class YtChannel:
