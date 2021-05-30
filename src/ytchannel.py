@@ -8,30 +8,11 @@ class YtChannel:
 
     def __init__(self, channel_id: str):
         # Attributes
-        self.__channel_id: str = channel_id
-        self.__title: str = ""
-        self.__subs_count: int = 0
-        self.__views_count: int = 0
-        self.__videos_count: int = 0
-
-        # Initialization
-        self.update()
-
-    def update(self) -> None:
-        # Get the api handle and channel data
-        channel = YtChannel.__yt_api_iface.get_channel_info(channel_id=self.__channel_id, parts="statistics,snippet") \
-            .items[0].to_dict()
-
-        # Get Statistics info
-        statistics = channel['statistics']
-        self.__subs_count = statistics['subscriberCount']
-        self.__views_count = statistics['viewCount']
-        self.__videos_count = statistics['videoCount']
-
-        # Get channel title
-        if self.__title is "":
-            snippet = channel['snippet']
-            self.__title = snippet['title']
+        self._channel_id: str = channel_id
+        self._title: str = ""
+        self._subs_count: int = 0
+        self._views_count: int = 0
+        self._videos_count: int = 0
 
     def __repr__(self):
         return [self.title, self.subs, self.views, self.videos]
