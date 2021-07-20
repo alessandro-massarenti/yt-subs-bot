@@ -1,49 +1,41 @@
 # !/usr/bin/env python
-# pylint: disable=C0116
 
-import os
-from telegram.ext import Updater, CommandHandler
-from threading import Timer
+from yt_api.ytchannelremote import YtChannelRemote
+from signaling.telegram_listener import setup_telegram_event_handlers
+from signaling.printing_listener import setup_printing_event_handlers
+from yt_api.updater import Updater
 
+import signal
 import time
 
-from callbacks import CallBacks
 
-bot_key: str = os.environ['BOT_KEY']
+class GracefulKiller:
+    kill_now = False
 
+    def __init__(self):
+        signal.signal(signal.SIGINT, self.exit_gracefully)
+        signal.signal(signal.SIGTERM, self.exit_gracefully)
 
-class RepeatTimer(Timer):
-    def run(self) -> None:
-        while not self.finished.wait(self.interval):
-            self.function(*self.args, **self.kwargs)
-        print("done")
+    def exit_gracefully(self, *args):
+        self.kill_now = True
 
 
 def main() -> None:
-    # Print "Starting up"
-    print("Spinning up the bot ...")
+    mountaintime = YtChannelRemote('UCC84ggiZXVyXtlNgerfPVcg')
 
-    # Create the Updater and pass it your bots token.
-    updater = Updater(bot_key)
+    # setup event handlers
+    setup_telegram_event_handlers()
+    setup_printing_event_handlers()
 
-    # Get the dispatcher to register handlers
-    dispatcher = updater.dispatcher
+    yt_updater = Updater(4, mountaintime.update)
+    yt_updater.start()
 
-    # on different commands - answer in Telegram
-    dispatcher.add_handler(CommandHandler("track", CallBacks.track_channel))
+    killer = GracefulKiller()
+    while not killer.kill_now:
+        time.sleep(1)
+        print("keeping the program alive")
 
-    timer = RepeatTimer(2, CallBacks.check_channels)
-    timer.start()
-
-    # Start the Bot
-    updater.start_polling()
-    print("Polling started")
-
-    # Block until you press Ctrl-C or the process receives SIGINT, SIGTERM or
-    # SIGABRT. This should be used most of the time, since start_polling() is
-    # non-blocking and will stop the bot gracefully.
-    updater.idle()
-    timer.cancel()
+    yt_updater.cancel()
 
 
 if __name__ == '__main__':
